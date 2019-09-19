@@ -307,7 +307,7 @@ the name dispatches from the BookInput component. If the name already exists,
 state is returned unchanged. If the name is not present, it is added to the
 author array. Use the example above to modify the `manageAuthorsAndBooks`
 reducer and you can see the effect. We have two separate forms, one for adding
-just authors, and one that adds books \_and_ authors.
+just authors, and one that adds books _and_ authors.
 
 **Note:** We're using a useful package, `uuid`, to handle unique ID generation.
 With this refactor, since we are creating an author ID from within the reducer
