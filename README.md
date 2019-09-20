@@ -69,10 +69,10 @@ export default function bookApp(
       };
 
     case "REMOVE_BOOK":
-      idx = state.books.indexOf(action.id);
+      idx = state.books.findIndex(book => book.id === action.id);
       return {
         ...state,
-        books: [state.books.slice(0, idx), state.books.slice(idx + 1)]
+        books: [...state.books.slice(0, idx), ...state.books.slice(idx + 1)]
       };
 
     case "ADD_AUTHOR":
@@ -82,10 +82,10 @@ export default function bookApp(
       };
 
     case "REMOVE_AUTHOR":
-      idx = state.authors.indexOf(action.id);
+      idx = state.authors.findIndex(author => author.id === action.id);
       return {
         ...state,
-        authors: [state.authors.slice(0, idx), state.authors.slice(idx + 1)]
+        authors: [...state.authors.slice(0, idx), ...state.authors.slice(idx + 1)]
       };
 
     default:
@@ -126,7 +126,7 @@ function booksReducer(state = [], action) {
       return [...state, action.book];
 
     case "REMOVE_BOOK":
-      idx = state.indexOf(action.id);
+      idx = state.findIndex(book => book.id  === action.id)
       return [...state.slice(0, idx), ...state.slice(idx + 1)];
 
     default:
@@ -141,7 +141,7 @@ function authorsReducer(state = [], action) {
       return [...state, action.author];
 
     case "REMOVE_AUTHOR":
-      idx = state.indexOf(action.id);
+      idx = state.findIndex(author => author.id  === action.id)
       return [...state.slice(0, idx), ...state.slice(idx + 1)];
 
     default:
@@ -209,7 +209,7 @@ function authorsReducer(state = [], action) {
       return [...state, action.author];
 
     case "REMOVE_AUTHOR":
-      idx = state.indexOf(action.id);
+      idx = state.findIndex(author => author.id === action.id);
       return [...state.slice(0, idx), ...state.slice(idx + 1)];
 
     default:
@@ -261,7 +261,7 @@ function booksReducer(state = [], action) {
       return [...state, action.book];
 
     case "REMOVE_BOOK":
-      idx = state.indexOf(action.id);
+      idx = state.findIndex(book => book.id === action.id);
       return [...state.slice(0, idx), ...state.slice(idx + 1)];
 
     default:
@@ -283,7 +283,7 @@ function authorsReducer(state = [], action) {
       return [...state, action.author];
 
     case "REMOVE_AUTHOR":
-      idx = state.indexOf(action.id);
+      idx = state.findIndex(book => book.id === action.id);
       return [...state.slice(0, idx), ...state.slice(idx + 1)];
 
     case "ADD_BOOK":
