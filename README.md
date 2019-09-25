@@ -65,6 +65,7 @@ export default function bookApp(
     case "ADD_BOOK":
       return {
         ...state,
+        authors: [...state.authors],
         books: [...state.books, action.book]
       };
 
@@ -72,12 +73,14 @@ export default function bookApp(
       idx = state.books.findIndex(book => book.id === action.id);
       return {
         ...state,
+        authors: [...state.authors],
         books: [...state.books.slice(0, idx), ...state.books.slice(idx + 1)]
       };
 
     case "ADD_AUTHOR":
       return {
         ...state,
+        books: [...state.books],
         authors: [...state.authors, action.author]
       };
 
@@ -85,6 +88,7 @@ export default function bookApp(
       idx = state.authors.findIndex(author => author.id === action.id);
       return {
         ...state,
+        books: [...state.books],
         authors: [...state.authors.slice(0, idx), ...state.authors.slice(idx + 1)]
       };
 
@@ -101,6 +105,32 @@ reducer, we are coupling these resources together, where we would prefer to
 maintain their separation. By creating separate reducers for each resource in an
 application, we can keep our code organized as our applications get more
 complicated.
+
+> **NOTE:** You may have noticed something in the reducer example: when we
+update one part of `state`, we're still using the spread operator _on other
+parts_. For example, in the `"ADD_AUTHOR"` case, we add `action.author` to the
+`authors` array, but **we also use the spread operator to create a new `book`
+array**. This is because both `Object.assign()` and the spread operator only
+create shallow copies of objects. If we leave out `books: [...state.books]`,
+and just write the following:
+
+```js
+return {
+        ...state,
+        authors: [...state.authors, action.author]
+};
+```
+
+A new reference to the old `state.books` array will be used, _not a new copy of
+the array_. This is subtle, and can easily be overlooked, but by referencing the
+old state, we are no longer maintaining an immutable state. [The official redux
+documentation][] goes into further detail on the benefits of immutability, [discusses
+this exact issue][], and [provides further examples][] of how to properly use the
+spread operator to deeply copy nested data.
+
+[The official redux documentation]: https://redux.js.org/faq/immutable-data#what-are-the-benefits-of-immutability
+[discusses this exact issue]: https://redux.js.org/faq/immutable-data#accidental-object-mutation
+[provides further examples]: https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 
 ## Refactor by using combineReducers
 
