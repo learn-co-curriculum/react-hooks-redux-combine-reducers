@@ -152,19 +152,17 @@ export const removeAuthor = (id) => {
 const initialState = [];
 
 export default function authorsReducer(state = initialState, action) {
+  switch (action.type) {
     case "authors/add":
       return [...state, action.payload];
 
     case "authors/remove":
-      return state.filter(
-        (author) => author.id !== action.payload
-      );
+      return state.filter((author) => author.id !== action.payload);
 
     default:
       return state;
   }
 }
-
 ```
 
 Then, update the `bookSlice.js` file like this:
@@ -204,13 +202,15 @@ export default function booksReducer(state = initialState, action) {
 }
 ```
 
-Finally, create a new file for our combined reducers
+Also, fix the imports for the action creators in your components.
+
+Finally, create a new file for our combined reducers:
 
 ```js
 // src/reducers.js
 import { combineReducers } from "redux";
-import authorsReducer from "./features/authors/authorSlice.js";
-import booksReducer from "./features/books/bookSlice.js";
+import authorsReducer from "./features/authors/authorsSlice";
+import booksReducer from "./features/books/booksSlice";
 
 const rootReducer = combineReducers({
   authors: authorsReducer,
@@ -224,8 +224,8 @@ There's a lot of code there, so let's unpack it a bit:
 
 ```javascript
 import { combineReducers } from "redux";
-import authorsReducer from "./features/authors/authorSlice.js";
-import booksReducer from "./features/books/bookSlice.js";
+import authorsReducer from "./features/authors/authorsSlice";
+import booksReducer from "./features/books/booksSlice";
 
 const rootReducer = combineReducers({
   authors: authorsReducer,
