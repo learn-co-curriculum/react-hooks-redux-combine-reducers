@@ -126,8 +126,9 @@ src
 ```
 
 Start by creating separate folders for the code related to each 'domain' of our
-app: authors and books. Then, create a new `authorSlice.js` file. Update the
-`authorSlice.js` file with this code:
+app: authors and books. Move your component code into the appropriate folders,
+and update your imports in `App.js`. Then, create a new `authorSlice.js` file.
+Update the `authorSlice.js` file with this code:
 
 ```js
 // ./src/features/authors/authorSlice.js
@@ -342,10 +343,10 @@ export default function booksReducer(state = initialState, action) {
 ```
 
 However, in `authorsReducer`, we can _also_ include a switch case for
-"ADD_BOOK":
+`"books/add"`:
 
 ```js
-import uuid from "uuid";
+import { v4 as uuid } from 'uuid';
 
 const initialState = [];
 
