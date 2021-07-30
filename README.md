@@ -33,8 +33,8 @@ Our app will need a state object that stores two types of information:
 1. All our books, in an array
 2. Our authors, also in an array
 
-Each of these types of information &mdash; all our books, and the authors
-&mdash; should be represented on our store's state object. We want to think of
+Each of these types of information — all our books, and the authors
+— should be represented on our store's state object. We want to think of
 our store's state structure as a database. We will represent this as a belongs
 to/has many relationship, in that a book belongs to an author and an author has
 many books. So this means each author would have its own id, and each book would
