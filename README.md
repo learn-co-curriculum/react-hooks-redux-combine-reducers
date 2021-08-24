@@ -26,19 +26,19 @@ We want our app to do two things:
 1. Keep track of all the books we've read: title, author, description.
 2. Keep track of the authors who wrote these books.
 
-#### Determine Application State Structure
+## Determine Application State Structure
 
 Our app will need a state object that stores two types of information:
 
 1. All our books, in an array
 2. Our authors, also in an array
 
-Each of these types of information — all our books, and the authors
-— should be represented on our store's state object. We want to think of
-our store's state structure as a database. We will represent this as a belongs
-to/has many relationship, in that a book belongs to an author and an author has
-many books. So this means each author would have its own id, and each book would
-have an authorId as a foreign key.
+Each of these types of information — all our books, and the authors — should be
+represented on our store's state object. We want to think of our store's state
+structure as a database. We will represent this as a belongs to/has many
+relationship, in that a book belongs to an author and an author has many books.
+So this means each author would have its own id, and each book would have an
+authorId as a foreign key.
 
 With that, we can set the application state as:
 
@@ -94,8 +94,8 @@ export default function reducer(state = initialState, action) {
 }
 ```
 
-This is the current set up in `src/features/books/booksSlice.js`, and it
-works. You can see, however, by working with just two resources, the size of our
+This is the current set up in `src/features/books/booksSlice.js`, and it works.
+You can see, however, by working with just two resources, the size of our
 reducer increased significantly. Moreover, by placing each resource in the same
 reducer, we are coupling these resources together, where we would prefer to
 maintain their separation. By creating separate reducers for each resource in an
@@ -111,7 +111,7 @@ the reducer we wrote above. Then we pass that combined reducer to the store in
 
 First, let's reorganize our code:
 
-```
+```txt
 src
 ├── features
 │   ├── authors
@@ -237,8 +237,8 @@ export default rootReducer;
 
 Through `combineReducer`, we're telling **Redux** to produce a reducer which
 will return a state that has both a key of `books` with a value equal to the
-return value of the `booksReducer()` _and_ a key of `authors` with a value
-equal to the return value of the `authorsReducer()`. Now if you look at the
+return value of the `booksReducer()` _and_ a key of `authors` with a value equal
+to the return value of the `authorsReducer()`. Now if you look at the
 `booksReducer()` and the `authorsReducer()` you will see that each returns a
 default state of an empty array.
 
@@ -258,19 +258,19 @@ By passing our `rootReducer` to the `createStore` method, the application
 maintains its initial state of `{ books: [], authors: [] }`, just as it did when
 we had one reducer. From the application's perspective nothing has changed.
 
-#### Examining Our New Reducers
+## Examining Our New Reducers
 
-Now if we examine the `authorsReducer()`, notice that this reducer only
-concerns itself with its own _slice_ of the state. This makes sense. Remember that
+Now if we examine the `authorsReducer()`, notice that this reducer only concerns
+itself with its own _slice_ of the state. This makes sense. Remember that
 ultimately the array that the `authorsReducer()` returns will be the value to
-the key of authors. Similarly the `authorsReducer()` only receives as its
-state argument the value of `state.authors`, in other words the authors array.
+the key of authors. Similarly the `authorsReducer()` only receives as its state
+argument the value of `state.authors`, in other words the authors array.
 
-So examining the `authorsReducer()`, we see that we no longer retrieve the
-list of authors with a call to `state.authors`, but can access the list of
-authors simply by calling `state`.
+So examining the `authorsReducer()`, we see that we no longer retrieve the list
+of authors with a call to `state.authors`, but can access the list of authors
+simply by calling `state`.
 
-```javascript
+```js
 const initialState = [];
 
 export default function authorsReducer(state = initialState, action) {
@@ -288,12 +288,12 @@ export default function authorsReducer(state = initialState, action) {
 }
 ```
 
-#### Dispatching Actions
+## Dispatching Actions
 
 The `combineReducer()` function returns to us one large reducer that looks like
 the following:
 
-```javascript
+```js
 const initialState = {
   authors: [], //array of authors
   books: [], // array of books
@@ -325,7 +325,7 @@ The action dispatched doesn't change:
 `store.dispatch({ type: 'books/add', { title: 'Snow Crash', author: 'Neal Stephenson' } });`.
 Our `booksReducer` can stay the same for now:
 
-```javascript
+```js
 const initialState = [];
 
 export default function booksReducer(state = initialState, action) {
@@ -393,7 +393,7 @@ keeping reducers separated helps us organize code and separate concerns. Actions
 can cause multiple reducers to modify their own state, but we can still keep all
 modifications to a _particular_ resource within its own separate file.
 
-#### Resources
+## Resources
 
 - [Combining Reducers](https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#combining-reducers)
 - [Implementing Combine Reducers from Scratch](https://egghead.io/lessons/javascript-redux-implementing-combinereducers-from-scratch)
