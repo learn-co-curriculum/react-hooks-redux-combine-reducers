@@ -352,6 +352,7 @@ import { v4 as uuid } from 'uuid';
 const initialState = [];
 
 export default function authorsReducer(state = initialState, action) {
+  switch (action.type) {
     case "authors/add":
       return [...state, action.payload];
 
