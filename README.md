@@ -3,8 +3,8 @@
 ## Learning Goals
 
 - Write action creators and reducers to modify application state
-- Use the `combineReducers()` function to delegate different pieces of state 
-  to each reducer
+- Use the `combineReducers()` function to delegate different pieces of state to
+  each reducer
 
 ## Introduction
 
@@ -235,12 +235,12 @@ const rootReducer = combineReducers({
 export default rootReducer;
 ```
 
-Through `combineReducer`, we're telling **Redux** to produce a reducer which
-will return a state that has both a key of `books` with a value equal to the
-return value of the `booksReducer()` _and_ a key of `authors` with a value equal
-to the return value of the `authorsReducer()`. Now if you look at the
-`booksReducer()` and the `authorsReducer()` you will see that each returns a
-default state of an empty array.
+Through `combineReducer`, we're telling Redux to produce a reducer which will
+return a state that has both a key of `books` with a value equal to the return
+value of the `booksReducer()` _and_ a key of `authors` with a value equal to the
+return value of the `authorsReducer()`. Now if you look at the `booksReducer()`
+and the `authorsReducer()` you will see that each returns a default state of an
+empty array.
 
 We'll also need to import our new root reducer in the `src/index.js` file:
 
@@ -266,7 +266,7 @@ ultimately the array that the `authorsReducer()` returns will be the value to
 the key of authors. Similarly the `authorsReducer()` only receives as its state
 argument the value of `state.authors`, in other words the authors array.
 
-So examining the `authorsReducer()`, we see that we no longer retrieve the list
+If we examine the `authorsReducer()`, we see that we no longer retrieve the list
 of authors with a call to `state.authors`, but can access the list of authors
 simply by calling `state`.
 
@@ -279,9 +279,7 @@ export default function authorsReducer(state = initialState, action) {
       return [...state, action.payload];
 
     case "authors/remove":
-      return state.filter(
-        (author) => author.id !== action.payload
-      );
+      return state.filter((author) => author.id !== action.payload);
 
     default:
       return state;
@@ -312,18 +310,33 @@ export default function reducer(state = initialState, action) {
 }
 ```
 
-Because of this, we can dispatch actions the same way we always did.
-`store.dispatch({ type: 'books/add', { title: 'Snow Crash', author: 'Neal Stephenson' } });`
-will hit our switch statement in the reducer and add a new author. One thing to
-note, is that if you want to have more than one reducer respond to the same
-action, you can.
+Because of this, we can dispatch actions the same way we always did:
 
-For example, in our application, when a user inputs information about a book,
-the user _also_ inputs the author's name. It would be handy if, when a user
-submits a book with an author, that author is also added to our author array.
+```js
+store.dispatch({
+  type: "books/add",
+  payload: { title: "Snow Crash", author: "Neal Stephenson" },
+});
+```
+
+The dispatched action above will hit our switch statement in the reducer and add
+a new author.
+
+One thing to note: if you want to have more than one reducer respond to the same
+action, you can! For example, in our application, when a user inputs information
+about a book, the user _also_ inputs the author's name. It would be handy if,
+when a user submits a book with an author, that author is also added to our
+author array.
 
 The action dispatched doesn't change:
-`store.dispatch({ type: 'books/add', { title: 'Snow Crash', author: 'Neal Stephenson' } });`.
+
+```js
+store.dispatch({
+  type: "books/add",
+  payload: { title: "Snow Crash", author: "Neal Stephenson" },
+});
+```
+
 Our `booksReducer` can stay the same for now:
 
 ```js
@@ -347,7 +360,7 @@ However, in `authorsReducer`, we can _also_ include a switch case for
 `"books/add"`:
 
 ```js
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 
 const initialState = [];
 
@@ -357,9 +370,7 @@ export default function authorsReducer(state = initialState, action) {
       return [...state, action.payload];
 
     case "authors/remove":
-      return state.filter(
-        (author) => author.id !== action.payload
-      );
+      return state.filter((author) => author.id !== action.payload);
 
     case "books/add":
       const existingAuthor = state.find(
@@ -368,7 +379,10 @@ export default function authorsReducer(state = initialState, action) {
       if (existingAuthor) {
         return state;
       } else {
-        return [...state, { authorName: action.payload.authorName, id: uuid() }];
+        return [
+          ...state,
+          { authorName: action.payload.authorName, id: uuid() },
+        ];
       }
 
     default:
