@@ -121,7 +121,7 @@ src
 │   └── books
 │       ├── BookInput.js
 │       ├── Books.js
-│       └── bookSlice.js
+│       └── booksSlice.js
 └── reducers.js
 ```
 
@@ -165,10 +165,10 @@ export default function authorsReducer(state = initialState, action) {
 }
 ```
 
-Then, update the `bookSlice.js` file like this:
+Then, update the `booksSlice.js` file like this:
 
 ```js
-// ./src/features/books/bookSlice.js
+// ./src/features/books/booksSlice.js
 
 // Action Creators
 export const addBook = (book) => {
