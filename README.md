@@ -320,7 +320,7 @@ store.dispatch({
 ```
 
 The dispatched action above will hit our switch statement in the reducer and add
-a new author.
+a new author. * Bonus: you now have an action creator function available to you that takes our book as an argument and returns this action object. See if you can make it work using dispatch!
 
 One thing to note: if you want to have more than one reducer respond to the same
 action, you can! For example, in our application, when a user inputs information
